@@ -33,30 +33,33 @@ class Queue {
   }
 
   dequeue() {
-    // throw new NotImplementedError('Not implemented');
-    // // remove line with error and write your code here
+    const top = this.head.value;
+    this.head = this.head.next;
+    return top;
   }
 }
 
 
- const queue = new Queue();
+//  const queue = new Queue();
  
- queue.enqueue(1); 
- queue.enqueue(2);
- queue.enqueue(3);
- queue.enqueue(4);
- queue.enqueue(5);
- queue.enqueue(6);
- queue.enqueue(7);
- queue.enqueue(8);
-//  queue.enqueue(3); // adds the element to the queue
-//  queue.dequeue(); // returns the top element from queue and deletes it, returns 1
-  // returns { value: 3, next: null }
-let current = queue.head
-while (current) {
-  console.log(current.value);
-  current = current.next
-}
+//  queue.enqueue(1); 
+//  queue.enqueue(2);
+//  queue.enqueue(3);
+//  queue.enqueue(4);
+//  queue.enqueue(5);
+//  queue.enqueue(6);
+//  queue.enqueue(7);
+//  queue.enqueue(8);
+//  queue.dequeue();
+//  queue.dequeue();
+// //  queue.enqueue(3); // adds the element to the queue
+// //  queue.dequeue(); // returns the top element from queue and deletes it, returns 1
+//   // returns { value: 3, next: null }
+// let current = queue.head
+// while (current) {
+//   console.log(current.value);
+//   current = current.next
+// }
 
 
 
