@@ -16,29 +16,51 @@ const { ListNode } = require('../extensions/list-node.js');
 class Queue {
   constructor () {
     this.tail = this.head = null;
+    this.length = 0;
   }
   getUnderlyingList() {
-    return {value: this.head.value, next: this.head.next}
+    return {value: this.head ? this.head.value: null, next: this.head  ? this.head.next : null}
   }
 
   enqueue(value) {
     if (!this.head) {
-      this.head = this.tail = new ListNode(value);
-      this.head.next = this.tail;
+      this.head = new ListNode(value);
+      this.head.next = null;
+      this.length += 1;
     } else {
-      let oldTail = this.tail;
-      this.tail = new ListNode(value);
-      oldTail.next = this.tail;
+      if (this.length == 1) {
+        let oldTail = this.head;
+        this.tail = new ListNode(value);
+        oldTail.next = this.tail;
+        this.length += 1;
+      } else {
+        let oldTail = this.tail;
+        this.tail = new ListNode(value);
+        oldTail.next = this.tail;
+        this.length += 1;
+      }
+      
     }
   }
 
   dequeue() {
+    if (this.length == 1) {
+      this.length -=1;
+      const top = this.head.value;
+      this.head = null;
+      return top;
+    }
+    if (this.length > 1) {
     const top = this.head.value;
     this.head = this.head.next;
+    this.length -= 1;
     return top;
+    }
+    // if (this.length == 0) {
+    //   throw new Error('Queue is already empty!')
+    // }
   }
 }
-
 
 //  const queue = new Queue();
  
@@ -52,6 +74,15 @@ class Queue {
 //  queue.enqueue(8);
 //  queue.dequeue();
 //  queue.dequeue();
+//  queue.dequeue();
+//  queue.dequeue();
+//  queue.dequeue();
+//  queue.dequeue();
+//  queue.dequeue();
+//  queue.dequeue();
+//  queue.dequeue();
+//  queue.enqueue(8);
+//  queue.enqueue(8);
 // //  queue.enqueue(3); // adds the element to the queue
 // //  queue.dequeue(); // returns the top element from queue and deletes it, returns 1
 //   // returns { value: 3, next: null }
@@ -60,6 +91,7 @@ class Queue {
 //   console.log(current.value);
 //   current = current.next
 // }
+// console.log(queue.getUnderlyingList())
 
 
 
