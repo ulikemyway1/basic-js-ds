@@ -17,33 +17,36 @@ class BinarySearchTree {
   }
 
   add(data) {
-    if (!this.rootData) {
-      this.rootData = new Node(data);
-    } else {
-      const newNode = new Node(data);
-      let nextNode;
-      let currentNode = this.rootData;
+    if (!this.has(data)) {
+      if (!this.rootData) {
+        this.rootData = new Node(data);
+      } else {
+        const newNode = new Node(data);
+        let nextNode;
+        let currentNode = this.rootData;
+        if (data > currentNode.data) {
+          nextNode = currentNode.right;
+        } else {
+          nextNode = currentNode.left;
+        }
+      while (nextNode) {
+        currentNode = nextNode;
+        if (data > nextNode.data) {
+          nextNode = nextNode.right;
+        } else {
+          nextNode = nextNode.left;
+        }
+      }
+  
       if (data > currentNode.data) {
-        nextNode = currentNode.right;
+        currentNode.right = newNode;
       } else {
-        nextNode = currentNode.left;
+        currentNode.left = newNode;
       }
-    while (nextNode) {
-      currentNode = nextNode;
-      if (data > nextNode.data) {
-        nextNode = nextNode.right;
-      } else {
-        nextNode = nextNode.left;
-      }
+  
+    }
     }
 
-    if (data > currentNode.data) {
-      currentNode.right = newNode;
-    } else {
-      currentNode.left = newNode;
-    }
-
-  }
   }
   has(data) {
     let currentNode = this.rootData
@@ -80,18 +83,65 @@ class BinarySearchTree {
 
   remove(data) {
     let currentNode = this.rootData;
-    while (currentNode) {
-      if (data === currentNode.data) {
-      currentNode.data = '0000';
-      return;
+    let prevNode = null;
+    while (currentNode !== null && currentNode.data !== data) {
+      prevNode = currentNode;
+      if (data > currentNode.data) {
+        currentNode = currentNode.right;
       } else {
-        if (data > currentNode.data) {
-          currentNode = currentNode.right;
-        } else {
-          currentNode = currentNode.left;
-        }
+        currentNode = currentNode.left;
       }
     }
+    // console.log(currentNode.data)
+    // console.log(prevNode.data)
+    if ((currentNode.left && !currentNode.right) || (!currentNode.left && currentNode.right) && this.root().data !== data) { //check if delete node has only one child
+      const childNode = currentNode.left ? currentNode.left : currentNode.right;
+      if (prevNode.data > childNode.data) {
+        prevNode.left = childNode;
+      } else {
+        prevNode.right = childNode;
+      }
+    } else if (!currentNode.left && !currentNode.right) { //check if delete node has no children
+      if(this.rootData === data) {
+        this.rootData = null;
+        return;
+      } else if (prevNode && prevNode.data > currentNode.data) {
+        prevNode.left = null;
+      } else if (prevNode) {
+        prevNode.right = null;
+      }
+    } else if (this.rootData === data) { //check if target root is the root
+      let newRoot;
+      if (this.root().right) {
+        newRoot = this.root().right;
+      } else {
+        newRoot = this.root().left;
+      }
+      // if (this.root().right.)
+      this.rootData = newRoot;
+    } else { //then target node has two children
+
+      let smallest = currentNode.right;
+      let parentOfSmallest
+      while (smallest.data) {
+        parentOfSmallest = smallest;
+        if (smallest.left) {
+          smallest = smallest.left;
+        } else {
+          break;
+        }
+         
+        //  if (!smallest.left) {
+        //   break;
+        //  }
+      }
+      currentNode.data = smallest.data;
+      parentOfSmallest.left = null;
+
+
+      }
+
+    
     // targetNode.data = null;
   }
 
@@ -118,20 +168,27 @@ class BinarySearchTree {
 
 
 const tree = new BinarySearchTree();
-tree.add(9);
-tree.add(14);
-tree.add(2);
-tree.add(6);
-tree.add(128);
-tree.add(9);
+tree.add(10);
+tree.add(30);
 tree.add(31);
-tree.add(54);
-tree.add(1);
-tree.remove(14);
-tree.remove(8);
-tree.remove(9);
+tree.add(25);
+tree.add(24);
+tree.add(27)
+tree.add(26)
+tree.add(28)
+
+tree.remove(28);
+tree.remove(26);
+tree.remove(27);
+tree.remove(24);
+tree.remove(25);
+tree.remove(31);
+tree.remove(30)
+tree.remove(10);
+
 console.log(tree)
-console.log(tree.has(128))
+
+
 module.exports = {
   BinarySearchTree
 };
