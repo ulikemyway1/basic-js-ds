@@ -96,14 +96,15 @@ class BinarySearchTree {
     // console.log(prevNode.data)
     if ((currentNode.left && !currentNode.right) || (!currentNode.left && currentNode.right) && this.root().data !== data) { //check if delete node has only one child
       const childNode = currentNode.left ? currentNode.left : currentNode.right;
-      if (prevNode.data > childNode.data) {
+      if (prevNode && prevNode.data > childNode.data) {
         prevNode.left = childNode;
       } else {
         prevNode.right = childNode;
       }
     } else if (!currentNode.left && !currentNode.right) { //check if delete node has no children
-      if(this.rootData === data) {
+      if(this.rootData.data === data) {
         this.rootData = null;
+        console.log('ddd')
         return;
       } else if (prevNode && prevNode.data > currentNode.data) {
         prevNode.left = null;
@@ -112,10 +113,14 @@ class BinarySearchTree {
       }
     } else if (this.rootData === data) { //check if target root is the root
       let newRoot;
+      console.log('ss')
       if (this.root().right) {
         newRoot = this.root().right;
-      } else {
+      } else if (this.root().left) {
         newRoot = this.root().left;
+      } else {
+        newRoot = null;
+        console.log('ss')
       }
       // if (this.root().right.)
       this.rootData = newRoot;
